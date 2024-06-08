@@ -1,0 +1,8 @@
+@import "@fontsource/poppins";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+nav ul a.active {
+  @apply text-emerald-600 underline;
+}
