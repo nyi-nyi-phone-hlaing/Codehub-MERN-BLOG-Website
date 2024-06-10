@@ -4,7 +4,7 @@ import PostForm from "../components/PostForm";
 import uuid from "react-uuid";
 
 const CreatePost = () => {
-  return <PostForm formTitle={"Create a new post"} isCreate={true} />;
+  return <PostForm formTitle={"Create a new post"} isEdit={false} />;
 };
 
 export default CreatePost;
@@ -25,8 +25,13 @@ export const action = async ({ request }) => {
       "Content-Type": "application/json",
     },
   });
+
+  if (response.status === 422) {
+    return response;
+  }
+
   if (!response.ok) {
-    throw json();
+    throw json({ message: "" }, { status: 500 });
   }
   return redirect("/");
 };

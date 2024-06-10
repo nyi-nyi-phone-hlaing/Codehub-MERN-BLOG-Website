@@ -1,15 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
-import { json, useLoaderData } from "react-router-dom";
+import { json, redirect, useLoaderData } from "react-router-dom";
 import PostList from "../components/PostList";
+import { successToast } from "../utils/toast";
 
 const Feed = () => {
   const posts = useLoaderData();
 
-  return (
-    <div className='w-full h-full'>
-      <PostList posts={posts} />
-    </div>
-  );
+  return <PostList posts={posts} />;
 };
 
 export default Feed;
@@ -18,9 +15,27 @@ export const loader = async () => {
   const response = await fetch("http://localhost:8080/posts");
 
   if (!response.ok) {
-    throw json();
+    throw json({ message: "Internal Server Error" }, { status: 500 });
   }
 
   const data = await response.json();
   return data.posts;
+};
+
+export const action = async ({ request }) => {
+  const data = await request.formData();
+  const postId = data.get("postId");
+  const response = await fetch(`http://localhost:8080/posts/${postId}`, {
+    method: request.method,
+  });
+
+  if (!response.ok) {
+    throw json(
+      { message: "Deletion failed due to an internal server error." },
+      { status: 500 }
+    );
+  }
+  successToast("Post Delete Successfully");
+
+  return redirect("/");
 };

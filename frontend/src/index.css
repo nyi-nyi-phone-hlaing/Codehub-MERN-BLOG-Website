@@ -4,5 +4,40 @@
 @tailwind utilities;
 
 nav ul a.active {
-  @apply text-emerald-600 underline;
+  @apply text-emerald-600 underline dark:text-emerald-500;
+}
+
+/* index.css or another CSS file */
+
+/* Custom styling for the ConfirmDialog */
+.custom-confirm-dialog .p-dialog {
+  @apply bg-slate-600;
+}
+
+.custom-confirm-dialog .p-dialog-header {
+  @apply bg-emerald-600 text-white dark:text-black text-lg px-2 py-3;
+}
+
+.custom-confirm-dialog .p-dialog-content {
+  @apply bg-zinc-100 dark:bg-zinc-900 flex flex-col p-4 text-zinc-600 dark:text-zinc-400;
+}
+
+.custom-confirm-dialog .p-dialog-content .p-confirm-dialog-icon {
+  @apply text-rose-600;
+}
+
+.custom-confirm-dialog .p-dialog-footer {
+  @apply bg-zinc-50 dark:bg-zinc-950 flex justify-end items-center py-3 gap-2;
+}
+
+.custom-confirm-dialog .p-dialog-footer button {
+  @apply px-2 py-1 font-bold outline-none;
+}
+
+.custom-confirm-dialog .p-dialog-footer .p-confirm-dialog-accept {
+  @apply text-emerald-600;
+}
+
+.custom-confirm-dialog .p-dialog-footer .p-confirm-dialog-reject {
+  @apply text-rose-600;
 }
