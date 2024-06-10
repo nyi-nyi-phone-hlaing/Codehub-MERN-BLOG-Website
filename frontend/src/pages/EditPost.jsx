@@ -7,16 +7,6 @@ const EditPost = () => {
 
 export default EditPost;
 
-export const loader = async ({ params }) => {
-  const response = await fetch(`http://localhost:8080/posts/${params.id}`);
-
-  if (!response.ok) {
-    throw json({ message: "" }, { status: 500 });
-  }
-  const data = await response.json();
-  return data.post;
-};
-
 export const action = async ({ request }) => {
   const data = await request.formData();
   const postData = {
@@ -42,7 +32,10 @@ export const action = async ({ request }) => {
   }
 
   if (!response.ok) {
-    throw json({ message: "" }, { status: 500 });
+    throw json(
+      { message: "An unexpected error occurred. Please try again later." },
+      { status: 500 }
+    );
   }
   return redirect("/");
 };

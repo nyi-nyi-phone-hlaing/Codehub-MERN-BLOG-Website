@@ -3,10 +3,10 @@ import Main from "./layouts/Main";
 import { CreatePost, Details, EditPost, Error, Feed } from "./pages/index";
 import { loader as feedLoader } from "./pages/Feed";
 import { loader as postDetailsLoader } from "./pages/Details";
-import { action as createPostActions } from "./pages/CreatePost";
-import { action as postDeleteInDetailsActions } from "./pages/Details";
-import { action as postDeleteInFeedActions } from "./pages/Feed";
-import { action as editPostActions } from "./pages/EditPost";
+import { action as createPostAction } from "./pages/CreatePost";
+import { action as postDeleteInDetailsAction } from "./pages/Details";
+import { action as postDeleteInFeedAction } from "./pages/Feed";
+import { action as editPostAction } from "./pages/EditPost";
 import { ToastContainer } from "react-toastify";
 import { ConfirmDialog } from "primereact/confirmdialog";
 const router = createBrowserRouter([
@@ -19,12 +19,12 @@ const router = createBrowserRouter([
         index: true,
         element: <Feed />,
         loader: feedLoader,
-        action: postDeleteInFeedActions,
+        action: postDeleteInFeedAction,
       },
       {
         path: "/create-post",
         element: <CreatePost />,
-        action: createPostActions,
+        action: createPostAction,
       },
       {
         path: ":id",
@@ -34,12 +34,12 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Details />,
-            action: postDeleteInDetailsActions,
+            action: postDeleteInDetailsAction,
           },
           {
             path: "edit-post",
             element: <EditPost />,
-            action: editPostActions,
+            action: editPostAction,
           },
         ],
       },

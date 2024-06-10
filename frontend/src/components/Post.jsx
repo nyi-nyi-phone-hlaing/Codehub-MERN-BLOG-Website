@@ -41,7 +41,7 @@ const Post = ({ post }) => {
     <div className='bg-zinc-100 dark:bg-zinc-800 rounded-md overflow-hidden shadow-md'>
       <div className='p-2'>
         <Link to={`${post.id}`}>
-          <h1 className='font-bold text-lg text-emerald-600'>
+          <h1 className='font-bold text-lg '>
             {post.title.length > 20
               ? post.title.substring(0, 20) + "..."
               : post.title}

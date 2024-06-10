@@ -31,7 +31,10 @@ export const action = async ({ request }) => {
   }
 
   if (!response.ok) {
-    throw json({ message: "" }, { status: 500 });
+    throw json(
+      { message: "An unexpected error occurred. Please try again later." },
+      { status: 500 }
+    );
   }
   return redirect("/");
 };
