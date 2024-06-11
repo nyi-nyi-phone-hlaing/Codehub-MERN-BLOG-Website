@@ -35,12 +35,16 @@ const Navbar = () => {
             </>
           )}
         </button>
-        <button className='text-zinc-400 px-2 py-1 border border-zinc-400'>
-          Register
-        </button>
-        <button className='text-white px-2 py-1 border border-emerald-600 bg-emerald-600'>
-          Login
-        </button>
+        <Link to={"/auth?mode=register"}>
+          <button className='text-zinc-400 px-2 py-1 border border-zinc-400'>
+            Register
+          </button>
+        </Link>
+        <Link to={"/auth?mode=login"}>
+          <button className='text-white px-2 py-1 border border-emerald-600 bg-emerald-600'>
+            Login
+          </button>
+        </Link>
       </div>
 
       {/* In Mobile Devices */}
@@ -72,12 +76,16 @@ const Navbar = () => {
             Create Post
           </NavLink>
           <div className='flex items-center gap-3 mt-4'>
-            <button className='text-zinc-600 dark:text-zinc-400 px-2 py-1 border border-zinc-600 dark:border-zinc-400'>
-              Register
-            </button>
-            <button className='text-white px-2 py-1 border border-emerald-600 bg-emerald-600'>
-              Login
-            </button>
+            <Link to={"/auth?mode=register"}>
+              <button className='text-zinc-400 px-2 py-1 border border-zinc-400'>
+                Register
+              </button>
+            </Link>
+            <Link to={"/auth?mode=login"}>
+              <button className='text-white px-2 py-1 border border-emerald-600 bg-emerald-600'>
+                Login
+              </button>
+            </Link>
           </div>
         </ul>
       )}

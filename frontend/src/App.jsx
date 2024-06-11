@@ -1,6 +1,13 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Main from "./layouts/Main";
-import { CreatePost, Details, EditPost, Error, Feed } from "./pages/index";
+import {
+  CreatePost,
+  Details,
+  EditPost,
+  Error,
+  Feed,
+  Auth,
+} from "./pages/index";
 import { loader as feedLoader } from "./pages/Feed";
 import { loader as postDetailsLoader } from "./pages/Details";
 import { action as createPostAction } from "./pages/CreatePost";
@@ -42,6 +49,10 @@ const router = createBrowserRouter([
             action: editPostAction,
           },
         ],
+      },
+      {
+        path: "/auth",
+        element: <Auth />,
       },
     ],
   },
