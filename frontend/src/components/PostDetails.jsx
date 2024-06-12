@@ -7,7 +7,7 @@ import {
   FiTrash,
   FiX,
 } from "react-icons/fi";
-import { Link, useSubmit } from "react-router-dom";
+import { Link, useRouteLoaderData, useSubmit } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import TimeAgo from "react-timeago";
@@ -15,6 +15,7 @@ import { confirmDialog } from "primereact/confirmdialog";
 import { errorToast } from "../utils/toast";
 
 const PostDetails = ({ post }) => {
+  const haveToken = useRouteLoaderData("root");
   const [isMenuActive, setIsMenuActive] = useState(false);
   const submit = useSubmit();
   const deleteHandler = () => {
@@ -55,29 +56,33 @@ const PostDetails = ({ post }) => {
             </p>
           </div>
         </div>
-        <button
-          onClick={() => setIsMenuActive((prev) => !prev)}
-          className='size-10 rounded-full flex justify-center items-center duration-200 hover:bg-zinc-200 hover:dark:bg-zinc-800'>
-          {isMenuActive ? <FiX size={25} /> : <FiMoreVertical size={25} />}
-        </button>
-
-        {isMenuActive && (
-          <ul className='absolute right-0 top-14 bg-zinc-100 dark:bg-zinc-800 p-2 rounded-md shadow-md'>
-            <li className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-700 hover:text-emerald-500'>
-              <FiBookmark size={22} className='mr-2' /> Save post
-            </li>
-            <Link
-              to={`edit-post`}
-              className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-700 hover:text-emerald-500'>
-              <FiEdit size={22} className='mr-2' /> Edit Post
-            </Link>
-
+        {haveToken && (
+          <>
             <button
-              onClick={deleteHandler}
-              className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-700 hover:text-emerald-500'>
-              <FiTrash size={22} className='mr-2' /> Delete Post
+              onClick={() => setIsMenuActive((prev) => !prev)}
+              className='size-10 rounded-full flex justify-center items-center duration-200 hover:bg-zinc-200 hover:dark:bg-zinc-800'>
+              {isMenuActive ? <FiX size={25} /> : <FiMoreVertical size={25} />}
             </button>
-          </ul>
+
+            {isMenuActive && (
+              <ul className='absolute right-0 top-14 bg-zinc-100 dark:bg-zinc-800 p-2 rounded-md shadow-md'>
+                <li className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-700 hover:text-emerald-500'>
+                  <FiBookmark size={22} className='mr-2' /> Save post
+                </li>
+                <Link
+                  to={`edit-post`}
+                  className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-700 hover:text-emerald-500'>
+                  <FiEdit size={22} className='mr-2' /> Edit Post
+                </Link>
+
+                <button
+                  onClick={deleteHandler}
+                  className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-700 hover:text-emerald-500'>
+                  <FiTrash size={22} className='mr-2' /> Delete Post
+                </button>
+              </ul>
+            )}
+          </>
         )}
       </header>
       <section className='pb-4'>
@@ -86,8 +91,8 @@ const PostDetails = ({ post }) => {
           src={post.image}
           alt={post.title}
         />
-        <h1 className='font-bold text-lg mb-2'>{post.title}</h1>
-        <p className='text-justify text-zinc-600 dark:text-zinc-400'>
+        <h1 className='select-text font-bold text-lg mb-2'>{post.title}</h1>
+        <p className='select-text text-justify text-zinc-600 dark:text-zinc-400'>
           {post.description}
         </p>
       </section>

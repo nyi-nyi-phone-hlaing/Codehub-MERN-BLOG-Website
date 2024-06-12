@@ -1,21 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 import { json, redirect } from "react-router-dom";
 import PostForm from "../components/PostForm";
+
+import { getToken } from "../utils/auth";
 const EditPost = () => {
   return <PostForm formTitle={"Edit your post"} isEdit={true} />;
 };
 
 export default EditPost;
-
-export const loader = async ({ params }) => {
-  const response = await fetch(`http://localhost:8080/posts/${params.id}`);
-
-  if (!response.ok) {
-    throw json({ message: "" }, { status: 500 });
-  }
-  const data = await response.json();
-  return data.post;
-};
 
 export const action = async ({ request }) => {
   const data = await request.formData();
@@ -33,16 +25,30 @@ export const action = async ({ request }) => {
       body: JSON.stringify(postData),
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + getToken(),
       },
     }
   );
+
+  if (response.status === 401) {
+    throw json(
+      {
+        message: "Unauthorize! Please register or login now",
+        to: "/auth?mode=signup",
+      },
+      { status: 401 }
+    );
+  }
 
   if (response.status === 422) {
     return response;
   }
 
   if (!response.ok) {
-    throw json({ message: "" }, { status: 500 });
+    throw json(
+      { message: "An unexpected error occurred. Please try again later." },
+      { status: 500 }
+    );
   }
   return redirect("/");
 };
