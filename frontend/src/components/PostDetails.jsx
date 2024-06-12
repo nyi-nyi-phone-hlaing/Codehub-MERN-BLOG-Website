@@ -87,7 +87,7 @@ const PostDetails = ({ post }) => {
       </header>
       <section className='pb-4'>
         <img
-          className='w-4/5 aspect-2/1 object-cover mx-auto my-4'
+          className='w-4/5 aspect-2/1 object-cover mx-auto my-4 max-md:w-full'
           src={post.image}
           alt={post.title}
         />
