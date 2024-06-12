@@ -1,9 +1,10 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useRouteLoaderData } from "react-router-dom";
 import { FiMenu, FiMoon, FiSun, FiX } from "react-icons/fi";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 
 const Navbar = () => {
+  const haveToken = useRouteLoaderData("root");
   const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
   const [toggleMenu, setToggleMenu] = useState(false);
   return (
@@ -17,9 +18,11 @@ const Navbar = () => {
         <NavLink to={"/"} className='text-zinc-400 font-bold'>
           Feed
         </NavLink>
-        <NavLink to={"/create-post"} className='text-zinc-400 font-bold'>
-          Create Post
-        </NavLink>
+        {haveToken && (
+          <NavLink to={"/create-post"} className='text-zinc-400 font-bold'>
+            Create Post
+          </NavLink>
+        )}
       </ul>
       <div className='hidden items-center gap-3 md:flex'>
         <button
@@ -35,16 +38,26 @@ const Navbar = () => {
             </>
           )}
         </button>
-        <Link to={"/auth?mode=register"}>
-          <button className='text-zinc-400 px-2 py-1 border border-zinc-400'>
-            Register
-          </button>
-        </Link>
-        <Link to={"/auth?mode=login"}>
-          <button className='text-white px-2 py-1 border border-emerald-600 bg-emerald-600'>
-            Login
-          </button>
-        </Link>
+        {!haveToken ? (
+          <>
+            <Link to={"/auth?mode=signup"}>
+              <button className='text-zinc-400 px-2 py-1 border border-zinc-400'>
+                Register
+              </button>
+            </Link>
+            <Link to={"/auth?mode=login"}>
+              <button className='text-white px-2 py-1 border border-emerald-600 bg-emerald-600'>
+                Login
+              </button>
+            </Link>
+          </>
+        ) : (
+          <Link onClick={() => setToggleMenu(false)} to={"/logout"}>
+            <button className='text-white px-2 py-1 border border-rose-600 bg-rose-600'>
+              Logout
+            </button>
+          </Link>
+        )}
       </div>
 
       {/* In Mobile Devices */}
@@ -69,23 +82,40 @@ const Navbar = () => {
             className='text-zinc-600 dark:text-zinc-400 font-bold mb-2'>
             Feed
           </NavLink>
-          <NavLink
-            onClick={() => setToggleMenu(false)}
-            to={"/create-post"}
-            className='text-zinc-600 dark:text-zinc-400 font-bold'>
-            Create Post
-          </NavLink>
+          {haveToken && (
+            <NavLink
+              onClick={() => setToggleMenu(false)}
+              to={"/create-post"}
+              className='text-zinc-600 dark:text-zinc-400 font-bold'>
+              Create Post
+            </NavLink>
+          )}
+
           <div className='flex items-center gap-3 mt-4'>
-            <Link to={"/auth?mode=register"}>
-              <button className='text-zinc-400 px-2 py-1 border border-zinc-400'>
-                Register
-              </button>
-            </Link>
-            <Link to={"/auth?mode=login"}>
-              <button className='text-white px-2 py-1 border border-emerald-600 bg-emerald-600'>
-                Login
-              </button>
-            </Link>
+            {!haveToken ? (
+              <>
+                <Link
+                  onClick={() => setToggleMenu(false)}
+                  to={"/auth?mode=signup"}>
+                  <button className='text-zinc-400 px-2 py-1 border border-zinc-400'>
+                    Register
+                  </button>
+                </Link>
+                <Link
+                  onClick={() => setToggleMenu(false)}
+                  to={"/auth?mode=login"}>
+                  <button className='text-white px-2 py-1 border border-emerald-600 bg-emerald-600'>
+                    Login
+                  </button>
+                </Link>
+              </>
+            ) : (
+              <Link onClick={() => setToggleMenu(false)} to={"/logout"}>
+                <button className='text-white px-2 py-1 border border-rose-600 bg-rose-600'>
+                  Logout
+                </button>
+              </Link>
+            )}
           </div>
         </ul>
       )}

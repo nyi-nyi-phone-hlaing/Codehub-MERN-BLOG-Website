@@ -1,6 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import { json, redirect } from "react-router-dom";
 import PostForm from "../components/PostForm";
+
+import { getToken } from "../utils/auth";
 const EditPost = () => {
   return <PostForm formTitle={"Edit your post"} isEdit={true} />;
 };
@@ -23,9 +25,20 @@ export const action = async ({ request }) => {
       body: JSON.stringify(postData),
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + getToken(),
       },
     }
   );
+
+  if (response.status === 401) {
+    throw json(
+      {
+        message: "Unauthorize! Please register or login now",
+        to: "/auth?mode=signup",
+      },
+      { status: 401 }
+    );
+  }
 
   if (response.status === 422) {
     return response;

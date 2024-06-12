@@ -9,11 +9,12 @@ import {
   FiTrash,
   FiX,
 } from "react-icons/fi";
-import { Link, useSubmit } from "react-router-dom";
+import { Link, useRouteLoaderData, useSubmit } from "react-router-dom";
 import TimeAgo from "react-timeago";
 import { errorToast } from "../utils/toast";
 
 const Post = ({ post }) => {
+  const haveToken = useRouteLoaderData("root");
   const [isMenuActive, setIsMenuActive] = useState(false);
   const submit = useSubmit();
   const deleteHandler = (e) => {
@@ -40,10 +41,10 @@ const Post = ({ post }) => {
   return (
     <div className='bg-zinc-100 dark:bg-zinc-800 rounded-md overflow-hidden shadow-md'>
       <div className='p-2'>
-        <Link to={`${post.id}`}>
-          <h1 className='font-bold text-lg '>
-            {post.title.length > 20
-              ? post.title.substring(0, 20) + "..."
+        <Link to={`/post/${post.id}`}>
+          <h1 className='select-text font-bold text-lg'>
+            {post.title.length > 40
+              ? post.title.substring(0, 40) + "..."
               : post.title}
           </h1>
         </Link>
@@ -51,7 +52,7 @@ const Post = ({ post }) => {
           <FiCalendar size={15} />
           <TimeAgo date={post.date} />
         </p>
-        <Link to={`${post.id}`}>
+        <Link to={`/post/${post.id}`}>
           <img
             className='w-full aspect-2/1 bg-zinc-300 dark:bg-zinc-900'
             src={post.image}
@@ -71,29 +72,33 @@ const Post = ({ post }) => {
             <p className='text-zinc-600 text-sm'>nnph123725@gmail.com</p>
           </div>
         </div>
-        <button
-          onClick={() => setIsMenuActive((prev) => !prev)}
-          className='size-8 rounded-full flex justify-center items-center duration-200 hover:bg-zinc-300 hover:dark:bg-zinc-800'>
-          {isMenuActive ? <FiX size={20} /> : <FiMoreVertical size={20} />}
-        </button>
-        {isMenuActive && (
-          <ul className='absolute right-2 bottom-16 bg-zinc-100 dark:bg-zinc-900 p-2 rounded-md shadow-lg'>
-            <li className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-800 hover:text-emerald-500'>
-              <FiBookmark size={22} className='mr-2' /> Save post
-            </li>
-
-            <Link
-              to={`${post.id}/edit-post`}
-              className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-800 hover:text-emerald-500'>
-              <FiEdit size={22} className='mr-2' /> Edit Post
-            </Link>
-
+        {haveToken && (
+          <>
             <button
-              onClick={deleteHandler}
-              className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-800 hover:text-emerald-500'>
-              <FiTrash size={22} className='mr-2' /> Delete Post
+              onClick={() => setIsMenuActive((prev) => !prev)}
+              className='size-8 rounded-full flex justify-center items-center duration-200 hover:bg-zinc-300 hover:dark:bg-zinc-800'>
+              {isMenuActive ? <FiX size={20} /> : <FiMoreVertical size={20} />}
             </button>
-          </ul>
+            {isMenuActive && (
+              <ul className='absolute right-2 bottom-16 bg-zinc-100 dark:bg-zinc-900 p-2 rounded-md shadow-lg'>
+                <li className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-800 hover:text-emerald-500'>
+                  <FiBookmark size={22} className='mr-2' /> Save post
+                </li>
+
+                <Link
+                  to={`/post/${post.id}/edit-post`}
+                  className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-800 hover:text-emerald-500'>
+                  <FiEdit size={22} className='mr-2' /> Edit Post
+                </Link>
+
+                <button
+                  onClick={deleteHandler}
+                  className=' px-2 py-1 mb-1 rounded-sm flex items-center justify-start cursor-pointer duration-300 hover:bg-zinc-200 hover:dark:bg-zinc-800 hover:text-emerald-500'>
+                  <FiTrash size={22} className='mr-2' /> Delete Post
+                </button>
+              </ul>
+            )}
+          </>
         )}
       </div>
     </div>

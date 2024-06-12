@@ -2,8 +2,9 @@ import { toast } from "react-toastify";
 
 const config = {
   position: "bottom-center",
-  autoClose: 3000,
+  autoClose: 1000,
   theme: "dark",
+  className: "text-sm",
 };
 
 export const defaultToast = (msg) => toast(msg, config);

@@ -3,6 +3,7 @@ import {
   Form,
   Link,
   useActionData,
+  useNavigation,
   useRouteLoaderData,
 } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -10,6 +11,8 @@ import PropTypes from "prop-types";
 const PostForm = ({ formTitle, isEdit }) => {
   const actionData = useActionData();
   const post = useRouteLoaderData("post-details");
+  const navigation = useNavigation();
+  const isPosting = navigation.state === "submitting";
 
   return (
     <div className='w-4/5 mx-auto px-3 max-md:w-full'>
@@ -88,19 +91,13 @@ const PostForm = ({ formTitle, isEdit }) => {
             defaultValue={isEdit ? post.description : ""}
             required></textarea>
         </div>
-        {isEdit ? (
-          <button
-            type='submit'
-            className='w-full py-1 font-bold text-lg bg-emerald-600 rounded-md hover:bg-emerald-700'>
-            Edit Post
-          </button>
-        ) : (
-          <button
-            type='submit'
-            className='w-full py-1 font-bold text-lg bg-emerald-600 rounded-md hover:bg-emerald-700'>
-            Create Post
-          </button>
-        )}
+
+        <button
+          type='submit'
+          className='w-full py-1 font-bold text-lg bg-emerald-600 rounded-md hover:bg-emerald-700'
+          disabled={isPosting}>
+          {isPosting ? "Posting..." : isEdit ? "Edit Post" : "Create Post"}
+        </button>
       </Form>
     </div>
   );

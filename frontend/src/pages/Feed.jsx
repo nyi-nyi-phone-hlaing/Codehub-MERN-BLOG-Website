@@ -3,6 +3,8 @@ import { json, redirect, useLoaderData } from "react-router-dom";
 import PostList from "../components/PostList";
 import { successToast } from "../utils/toast";
 
+import { getToken } from "../utils/auth";
+
 const Feed = () => {
   const posts = useLoaderData();
 
@@ -27,6 +29,9 @@ export const action = async ({ request }) => {
   const postId = data.get("postId");
   const response = await fetch(`http://localhost:8080/posts/${postId}`, {
     method: request.method,
+    headers: {
+      Authorization: "Bearer " + getToken(),
+    },
   });
 
   if (!response.ok) {
